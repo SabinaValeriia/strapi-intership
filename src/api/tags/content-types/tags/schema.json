@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tag",
+  "info": {
+    "singularName": "tags",
+    "pluralName": "tag",
+    "displayName": "Tags"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "projects": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::project.project",
+      "mappedBy": "tags"
+    },
+    "tasks": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tasks.tasks",
+      "mappedBy": "tags"
+    }
+  }
+}
