@@ -4,7 +4,8 @@
   "info": {
     "singularName": "tags",
     "pluralName": "tag",
-    "displayName": "Tags"
+    "displayName": "Tags",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,9 +13,6 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
-    },
-    "type": {
       "type": "string"
     },
     "projects": {
@@ -28,6 +26,9 @@
       "relation": "manyToMany",
       "target": "api::tasks.tasks",
       "mappedBy": "tags"
+    },
+    "type": {
+      "type": "string"
     }
   }
 }

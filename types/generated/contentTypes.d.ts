@@ -712,11 +712,6 @@ export interface ApiProjectProject extends Schema.CollectionType {
     title: Attribute.String;
     logo: Attribute.JSON;
     description: Attribute.String;
-    tasks: Attribute.Relation<
-      'api::project.project',
-      'manyToOne',
-      'api::tasks.tasks'
-    >;
     manager: Attribute.Relation<
       'api::project.project',
       'manyToOne',
@@ -736,6 +731,11 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'api::project.project',
       'manyToMany',
       'api::tags.tags'
+    >;
+    tasks: Attribute.Relation<
+      'api::project.project',
+      'oneToMany',
+      'api::tasks.tasks'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -797,13 +797,13 @@ export interface ApiTagsTags extends Schema.CollectionType {
     singularName: 'tags';
     pluralName: 'tag';
     displayName: 'Tags';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     name: Attribute.String;
-    type: Attribute.String;
     projects: Attribute.Relation<
       'api::tags.tags',
       'manyToMany',
@@ -814,6 +814,7 @@ export interface ApiTagsTags extends Schema.CollectionType {
       'manyToMany',
       'api::tasks.tasks'
     >;
+    type: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -837,14 +838,8 @@ export interface ApiTasksTasks extends Schema.CollectionType {
   };
   attributes: {
     key: Attribute.String;
-    project: Attribute.Relation<
-      'api::tasks.tasks',
-      'oneToMany',
-      'api::project.project'
-    >;
     title: Attribute.String;
     description: Attribute.String;
-    dueDate: Attribute.String;
     status: Attribute.Relation<
       'api::tasks.tasks',
       'manyToOne',
@@ -866,6 +861,12 @@ export interface ApiTasksTasks extends Schema.CollectionType {
       'api::tags.tags'
     >;
     type: Attribute.Relation<'api::tasks.tasks', 'manyToOne', 'api::type.type'>;
+    project: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToOne',
+      'api::project.project'
+    >;
+    dueDate: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

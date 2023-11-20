@@ -24,12 +24,6 @@
     "description": {
       "type": "string"
     },
-    "tasks": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::tasks.tasks",
-      "inversedBy": "project"
-    },
     "manager": {
       "type": "relation",
       "relation": "manyToOne",
@@ -53,6 +47,12 @@
       "relation": "manyToMany",
       "target": "api::tags.tags",
       "inversedBy": "projects"
+    },
+    "tasks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tasks.tasks",
+      "mappedBy": "project"
     }
   }
 }

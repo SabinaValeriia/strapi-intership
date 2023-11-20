@@ -15,19 +15,10 @@
     "key": {
       "type": "string"
     },
-    "project": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::project.project",
-      "mappedBy": "tasks"
-    },
     "title": {
       "type": "string"
     },
     "description": {
-      "type": "string"
-    },
-    "dueDate": {
       "type": "string"
     },
     "status": {
@@ -59,6 +50,15 @@
       "relation": "manyToOne",
       "target": "api::type.type",
       "inversedBy": "tasks"
+    },
+    "project": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::project.project",
+      "inversedBy": "tasks"
+    },
+    "dueDate": {
+      "type": "date"
     }
   }
 }
