@@ -587,7 +587,6 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     username: Attribute.String &
@@ -615,6 +614,26 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'manyToOne',
       'plugin::users-permissions.role'
+    >;
+    managerr: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::project.project'
+    >;
+    project: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::project.project'
+    >;
+    projects: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::project.project'
+    >;
+    tasks: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::tasks.tasks'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -677,6 +696,222 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiProjectProject extends Schema.CollectionType {
+  collectionName: 'projects';
+  info: {
+    singularName: 'project';
+    pluralName: 'projects';
+    displayName: 'Project';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    key: Attribute.String;
+    title: Attribute.String;
+    logo: Attribute.JSON;
+    description: Attribute.String;
+    manager: Attribute.Relation<
+      'api::project.project',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    members: Attribute.Relation<
+      'api::project.project',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    lead: Attribute.Relation<
+      'api::project.project',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    tags: Attribute.Relation<
+      'api::project.project',
+      'manyToMany',
+      'api::tags.tags'
+    >;
+    tasks: Attribute.Relation<
+      'api::project.project',
+      'oneToMany',
+      'api::tasks.tasks'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::project.project',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::project.project',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiStatusStatus extends Schema.CollectionType {
+  collectionName: 'statuses';
+  info: {
+    singularName: 'status';
+    pluralName: 'statuses';
+    displayName: 'Status';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    tasks: Attribute.Relation<
+      'api::status.status',
+      'oneToMany',
+      'api::tasks.tasks'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::status.status',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::status.status',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTagsTags extends Schema.CollectionType {
+  collectionName: 'tag';
+  info: {
+    singularName: 'tags';
+    pluralName: 'tag';
+    displayName: 'Tags';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    projects: Attribute.Relation<
+      'api::tags.tags',
+      'manyToMany',
+      'api::project.project'
+    >;
+    tasks: Attribute.Relation<
+      'api::tags.tags',
+      'manyToMany',
+      'api::tasks.tasks'
+    >;
+    type: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::tags.tags', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::tags.tags', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTasksTasks extends Schema.CollectionType {
+  collectionName: 'task';
+  info: {
+    singularName: 'tasks';
+    pluralName: 'task';
+    displayName: 'Tasks';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    key: Attribute.String;
+    title: Attribute.String;
+    description: Attribute.String;
+    status: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToOne',
+      'api::status.status'
+    >;
+    members: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    reporter: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    tags: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToMany',
+      'api::tags.tags'
+    >;
+    type: Attribute.Relation<'api::tasks.tasks', 'manyToOne', 'api::type.type'>;
+    project: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToOne',
+      'api::project.project'
+    >;
+    dueDate: Attribute.Date;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::tasks.tasks',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::tasks.tasks',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTypeType extends Schema.CollectionType {
+  collectionName: 'types';
+  info: {
+    singularName: 'type';
+    pluralName: 'types';
+    displayName: 'Type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    tasks: Attribute.Relation<
+      'api::type.type',
+      'oneToMany',
+      'api::tasks.tasks'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::type.type', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::type.type', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -693,6 +928,11 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::project.project': ApiProjectProject;
+      'api::status.status': ApiStatusStatus;
+      'api::tags.tags': ApiTagsTags;
+      'api::tasks.tasks': ApiTasksTasks;
+      'api::type.type': ApiTypeType;
     }
   }
 }
