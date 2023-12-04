@@ -65,11 +65,11 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "managers": {
+    "manager": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToOne",
       "target": "api::project.project",
-      "mappedBy": "manager"
+      "inversedBy": "managers"
     },
     "projects": {
       "type": "relation",

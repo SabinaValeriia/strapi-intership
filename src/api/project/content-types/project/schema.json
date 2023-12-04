@@ -30,12 +30,6 @@
       "target": "api::tags.tags",
       "inversedBy": "projects"
     },
-    "manager": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "managers"
-    },
     "lead": {
       "type": "relation",
       "relation": "manyToOne",
@@ -47,6 +41,12 @@
       "relation": "oneToMany",
       "target": "api::task.task",
       "mappedBy": "project"
+    },
+    "managers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "manager"
     }
   }
 }
