@@ -65,30 +65,74 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "tasks": {
+    "image": {
+      "type": "json"
+    },
+    "projects_manager": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::project.project",
+      "mappedBy": "manager"
+    },
+    "projects_members": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::project.project",
+      "mappedBy": "members"
+    },
+    "tasks_asignee": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tasks.tasks",
+      "mappedBy": "asignee"
+    },
+    "tasks_members": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tasks.tasks",
+      "mappedBy": "members"
+    },
+    "tasks_reporter": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::tasks.tasks",
       "mappedBy": "reporter"
     },
-    "image": {
-      "type": "json"
-    },
     "department": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::department.department"
+      "relation": "manyToOne",
+      "target": "api::department.department",
+      "inversedBy": "users_department"
     },
     "manager": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "admin::user"
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "user_managers"
     },
-    "projects": {
+    "user_managers": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "manager"
+    },
+    "project": {
+      "type": "relation",
+      "relation": "oneToMany",
       "target": "api::project.project",
-      "mappedBy": "users"
+      "mappedBy": "user_project"
+    },
+    "tasks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tasks.tasks",
+      "mappedBy": "user_tasks"
+    },
+    "projects_lead": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::project.project",
+      "mappedBy": "lead"
     }
   }
 }

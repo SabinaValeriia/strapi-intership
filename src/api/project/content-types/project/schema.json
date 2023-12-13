@@ -28,19 +28,37 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::tags.tags",
-      "inversedBy": "projects"
+      "inversedBy": "projects_tags"
+    },
+    "members": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "projects_members"
+    },
+    "manager": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "projects_manager"
     },
     "tasks": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::tasks.tasks",
-      "mappedBy": "project"
+      "mappedBy": "project_tasks"
     },
-    "users": {
+    "user_project": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "projects"
+      "inversedBy": "project"
+    },
+    "lead": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "projects_lead"
     }
   }
 }
