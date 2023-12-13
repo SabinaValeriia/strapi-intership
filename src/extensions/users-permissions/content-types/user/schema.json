@@ -65,29 +65,30 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "managerr": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::project.project",
-      "mappedBy": "manager"
-    },
-    "project": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::project.project",
-      "mappedBy": "members"
-    },
-    "projects": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::project.project",
-      "mappedBy": "lead"
-    },
     "tasks": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::tasks.tasks",
       "mappedBy": "reporter"
+    },
+    "image": {
+      "type": "json"
+    },
+    "department": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::department.department"
+    },
+    "manager": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "admin::user"
+    },
+    "projects": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::project.project",
+      "mappedBy": "users"
     }
   }
 }

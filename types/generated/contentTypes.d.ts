@@ -615,25 +615,26 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    managerr: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::project.project'
-    >;
-    project: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToMany',
-      'api::project.project'
-    >;
-    projects: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::project.project'
-    >;
     tasks: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::tasks.tasks'
+    >;
+    image: Attribute.JSON;
+    department: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'api::department.department'
+    >;
+    manager: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToOne',
+      'admin::user'
+    >;
+    projects: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::project.project'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -696,6 +697,36 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiDepartmentDepartment extends Schema.CollectionType {
+  collectionName: 'departments';
+  info: {
+    singularName: 'department';
+    pluralName: 'departments';
+    displayName: 'Department';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::department.department',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::department.department',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProjectProject extends Schema.CollectionType {
   collectionName: 'projects';
   info: {
@@ -712,21 +743,6 @@ export interface ApiProjectProject extends Schema.CollectionType {
     title: Attribute.String;
     logo: Attribute.JSON;
     description: Attribute.String;
-    manager: Attribute.Relation<
-      'api::project.project',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    members: Attribute.Relation<
-      'api::project.project',
-      'manyToMany',
-      'plugin::users-permissions.user'
-    >;
-    lead: Attribute.Relation<
-      'api::project.project',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     tags: Attribute.Relation<
       'api::project.project',
       'manyToMany',
@@ -736,6 +752,11 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'api::project.project',
       'oneToMany',
       'api::tasks.tasks'
+    >;
+    users: Attribute.Relation<
+      'api::project.project',
+      'manyToMany',
+      'plugin::users-permissions.user'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -928,6 +949,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::department.department': ApiDepartmentDepartment;
       'api::project.project': ApiProjectProject;
       'api::status.status': ApiStatusStatus;
       'api::tags.tags': ApiTagsTags;
