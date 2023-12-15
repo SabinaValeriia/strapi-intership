@@ -14,7 +14,7 @@
     "name": {
       "type": "string"
     },
-    "tasks": {
+    "tasks_type": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::tasks.tasks",

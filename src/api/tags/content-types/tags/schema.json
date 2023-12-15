@@ -15,20 +15,20 @@
     "name": {
       "type": "string"
     },
-    "projects": {
+    "type": {
+      "type": "string"
+    },
+    "projects_tags": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::project.project",
       "mappedBy": "tags"
     },
-    "tasks": {
+    "tasks_tags": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::tasks.tasks",
       "mappedBy": "tags"
-    },
-    "type": {
-      "type": "string"
     }
   }
 }

@@ -24,29 +24,29 @@
     "description": {
       "type": "string"
     },
-    "manager": {
+    "tags": {
       "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "managerr"
+      "relation": "manyToMany",
+      "target": "api::tags.tags",
+      "inversedBy": "projects_tags"
     },
     "members": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "project"
+      "inversedBy": "project_members"
+    },
+    "manager": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "project_manager"
     },
     "lead": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "projects"
-    },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tags.tags",
-      "inversedBy": "projects"
+      "inversedBy": "project_lead"
     },
     "tasks": {
       "type": "relation",

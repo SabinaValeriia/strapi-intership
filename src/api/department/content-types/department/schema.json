@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "statuses",
+  "collectionName": "departments",
   "info": {
-    "singularName": "status",
-    "pluralName": "statuses",
-    "displayName": "Status",
+    "singularName": "department",
+    "pluralName": "departments",
+    "displayName": "Department",
     "description": ""
   },
   "options": {
@@ -15,11 +15,11 @@
     "name": {
       "type": "string"
     },
-    "tasks_status": {
+    "users_department": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::tasks.tasks",
-      "mappedBy": "status"
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "department"
     }
   }
 }

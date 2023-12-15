@@ -615,22 +615,48 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    managerr: Attribute.Relation<
+    image: Attribute.JSON;
+    department: Attribute.Relation<
       'plugin::users-permissions.user',
-      'oneToMany',
-      'api::project.project'
+      'manyToOne',
+      'api::department.department'
     >;
-    project: Attribute.Relation<
+    user_developers: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    user_managers: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    project_members: Attribute.Relation<
       'plugin::users-permissions.user',
       'manyToMany',
       'api::project.project'
     >;
-    projects: Attribute.Relation<
+    project_manager: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::project.project'
     >;
-    tasks: Attribute.Relation<
+    project_lead: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::project.project'
+    >;
+    assigned_task: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::tasks.tasks'
+    >;
+    working_on: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::tasks.tasks'
+    >;
+    task_reporter: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::tasks.tasks'
@@ -696,6 +722,42 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiDepartmentDepartment extends Schema.CollectionType {
+  collectionName: 'departments';
+  info: {
+    singularName: 'department';
+    pluralName: 'departments';
+    displayName: 'Department';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    name: Attribute.String;
+    users_department: Attribute.Relation<
+      'api::department.department',
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::department.department',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::department.department',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiProjectProject extends Schema.CollectionType {
   collectionName: 'projects';
   info: {
@@ -712,25 +774,25 @@ export interface ApiProjectProject extends Schema.CollectionType {
     title: Attribute.String;
     logo: Attribute.JSON;
     description: Attribute.String;
-    manager: Attribute.Relation<
+    tags: Attribute.Relation<
       'api::project.project',
-      'manyToOne',
-      'plugin::users-permissions.user'
+      'manyToMany',
+      'api::tags.tags'
     >;
     members: Attribute.Relation<
       'api::project.project',
       'manyToMany',
       'plugin::users-permissions.user'
     >;
-    lead: Attribute.Relation<
+    manager: Attribute.Relation<
       'api::project.project',
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    tags: Attribute.Relation<
+    lead: Attribute.Relation<
       'api::project.project',
-      'manyToMany',
-      'api::tags.tags'
+      'manyToOne',
+      'plugin::users-permissions.user'
     >;
     tasks: Attribute.Relation<
       'api::project.project',
@@ -768,7 +830,7 @@ export interface ApiStatusStatus extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    tasks: Attribute.Relation<
+    tasks_status: Attribute.Relation<
       'api::status.status',
       'oneToMany',
       'api::tasks.tasks'
@@ -804,17 +866,17 @@ export interface ApiTagsTags extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    projects: Attribute.Relation<
+    type: Attribute.String;
+    projects_tags: Attribute.Relation<
       'api::tags.tags',
       'manyToMany',
       'api::project.project'
     >;
-    tasks: Attribute.Relation<
+    tasks_tags: Attribute.Relation<
       'api::tags.tags',
       'manyToMany',
       'api::tasks.tasks'
     >;
-    type: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -840,10 +902,21 @@ export interface ApiTasksTasks extends Schema.CollectionType {
     key: Attribute.String;
     title: Attribute.String;
     description: Attribute.String;
+    dueDate: Attribute.Date;
+    project: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToOne',
+      'api::project.project'
+    >;
     status: Attribute.Relation<
       'api::tasks.tasks',
       'manyToOne',
       'api::status.status'
+    >;
+    asignee: Attribute.Relation<
+      'api::tasks.tasks',
+      'manyToOne',
+      'plugin::users-permissions.user'
     >;
     members: Attribute.Relation<
       'api::tasks.tasks',
@@ -861,12 +934,6 @@ export interface ApiTasksTasks extends Schema.CollectionType {
       'api::tags.tags'
     >;
     type: Attribute.Relation<'api::tasks.tasks', 'manyToOne', 'api::type.type'>;
-    project: Attribute.Relation<
-      'api::tasks.tasks',
-      'manyToOne',
-      'api::project.project'
-    >;
-    dueDate: Attribute.Date;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -897,7 +964,7 @@ export interface ApiTypeType extends Schema.CollectionType {
   };
   attributes: {
     name: Attribute.String;
-    tasks: Attribute.Relation<
+    tasks_type: Attribute.Relation<
       'api::type.type',
       'oneToMany',
       'api::tasks.tasks'
@@ -928,6 +995,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::department.department': ApiDepartmentDepartment;
       'api::project.project': ApiProjectProject;
       'api::status.status': ApiStatusStatus;
       'api::tags.tags': ApiTagsTags;
