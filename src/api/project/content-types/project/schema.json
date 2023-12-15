@@ -34,31 +34,25 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "projects_members"
+      "inversedBy": "project_members"
     },
     "manager": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "projects_manager"
-    },
-    "tasks": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::tasks.tasks",
-      "mappedBy": "project_tasks"
-    },
-    "user_project": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "project"
+      "inversedBy": "project_manager"
     },
     "lead": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "projects_lead"
+      "inversedBy": "project_lead"
+    },
+    "tasks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tasks.tasks",
+      "mappedBy": "project"
     }
   }
 }

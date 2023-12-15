@@ -616,60 +616,50 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.role'
     >;
     image: Attribute.JSON;
-    projects_manager: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::project.project'
-    >;
-    projects_members: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToMany',
-      'api::project.project'
-    >;
-    tasks_asignee: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::tasks.tasks'
-    >;
-    tasks_members: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'manyToMany',
-      'api::tasks.tasks'
-    >;
-    tasks_reporter: Attribute.Relation<
-      'plugin::users-permissions.user',
-      'oneToMany',
-      'api::tasks.tasks'
-    >;
     department: Attribute.Relation<
       'plugin::users-permissions.user',
       'manyToOne',
       'api::department.department'
     >;
-    manager: Attribute.Relation<
+    user_developers: Attribute.Relation<
       'plugin::users-permissions.user',
-      'manyToOne',
+      'manyToMany',
       'plugin::users-permissions.user'
     >;
     user_managers: Attribute.Relation<
       'plugin::users-permissions.user',
-      'oneToMany',
+      'manyToMany',
       'plugin::users-permissions.user'
     >;
-    project: Attribute.Relation<
+    project_members: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::project.project'
+    >;
+    project_manager: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::project.project'
     >;
-    tasks: Attribute.Relation<
+    project_lead: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::project.project'
+    >;
+    assigned_task: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::tasks.tasks'
     >;
-    projects_lead: Attribute.Relation<
+    working_on: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::tasks.tasks'
+    >;
+    task_reporter: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
-      'api::project.project'
+      'api::tasks.tasks'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -799,20 +789,15 @@ export interface ApiProjectProject extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    tasks: Attribute.Relation<
-      'api::project.project',
-      'oneToMany',
-      'api::tasks.tasks'
-    >;
-    user_project: Attribute.Relation<
-      'api::project.project',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     lead: Attribute.Relation<
       'api::project.project',
       'manyToOne',
       'plugin::users-permissions.user'
+    >;
+    tasks: Attribute.Relation<
+      'api::project.project',
+      'oneToMany',
+      'api::tasks.tasks'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -918,7 +903,7 @@ export interface ApiTasksTasks extends Schema.CollectionType {
     title: Attribute.String;
     description: Attribute.String;
     dueDate: Attribute.Date;
-    project_tasks: Attribute.Relation<
+    project: Attribute.Relation<
       'api::tasks.tasks',
       'manyToOne',
       'api::project.project'
@@ -949,11 +934,6 @@ export interface ApiTasksTasks extends Schema.CollectionType {
       'api::tags.tags'
     >;
     type: Attribute.Relation<'api::tasks.tasks', 'manyToOne', 'api::type.type'>;
-    user_tasks: Attribute.Relation<
-      'api::tasks.tasks',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

@@ -24,7 +24,7 @@
     "dueDate": {
       "type": "date"
     },
-    "project_tasks": {
+    "project": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::project.project",
@@ -40,19 +40,19 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "tasks_asignee"
+      "inversedBy": "assigned_task"
     },
     "members": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "tasks_members"
+      "inversedBy": "working_on"
     },
     "reporter": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "tasks_reporter"
+      "inversedBy": "task_reporter"
     },
     "tags": {
       "type": "relation",
@@ -65,12 +65,6 @@
       "relation": "manyToOne",
       "target": "api::type.type",
       "inversedBy": "tasks_type"
-    },
-    "user_tasks": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "tasks"
     }
   }
 }
